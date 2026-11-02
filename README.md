@@ -1,0 +1,37 @@
+# Adityaram Palace City — React + Vite + Tailwind CSS
+
+The Palace City landing page, rebuilt from the single-file HTML version as a React app styled with Tailwind CSS v4.
+
+## Run it
+
+```bash
+npm install
+npm run dev       # local dev server
+npm run build     # production build in dist/
+npm run preview   # serve the production build
+```
+
+Requires Node 18+.
+
+## Project layout
+
+```
+index.html                 page shell, title and meta tags
+public/media/              hero film, walkthrough film, posters, highlight photos
+src/
+  index.css                Tailwind import, design tokens (@theme), fonts, base element styles
+  App.jsx                  page order
+  data/content.js          all copy: villas, FAQs, amenities, chapters, etc.
+  lib/ui.js                shared class strings (container, section, buttons)
+  lib/site.jsx             in-page jumps, enquiry villa selection, WhatsApp note
+  hooks/useMotionEffects   entrance, scroll reveals, count-up, map pulse (motion.dev)
+  hooks/useWordPress       optional WordPress content (set WP_SITE to enable)
+  components/              one file per section
+```
+
+## Notes
+
+- **Breakpoints** are defined in `src/index.css` to match the original stylesheet exactly. For example, `max-md:` means max-width 760px and `md:` means min-width 761px. Each one is listed there with its pixel value.
+- **Copy changes**: edit `src/data/content.js`. Most text lives there.
+- **WordPress**: set `WP_SITE` in `src/hooks/useWordPress.js` to fill the banner, highlights and testimonials from posts.
+- **Media**: the videos and images that were embedded as base64 in the HTML are now normal files in `public/media/`. That makes the first load much smaller, and the walkthrough film downloads only when a visitor gets near it.

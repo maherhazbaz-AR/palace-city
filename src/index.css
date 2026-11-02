@@ -1,0 +1,96 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   Design tokens
+   ------------------------------------------------------------------ */
+@theme {
+  --color-ground: #FBF7F0;
+  --color-ink: #3A2A1F;
+  --color-muted: #6F5F51;
+  --color-line: rgba(58, 42, 31, .12);
+  --color-maroon: #7A2335;
+  --color-maroon-2: #922B40;
+  --color-gold: #94692A;
+  --color-gold-bright: #C9A15A;
+  --color-sand: #F4EBDD;
+  --color-wa: #25D366;
+  --color-on-dark-muted: #E9DCCB;
+
+  --font-display: "PC Digits", "Cormorant Garamond", Cormorant, Garamond, "Times New Roman", serif;
+  --font-body: "Manrope", "Helvetica Neue", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-quote: "Cormorant Garamond", Georgia, serif;
+
+  /* Breakpoints match the original stylesheet exactly.
+     `max-md:` = max-width 760px, `md:` = min-width 761px, and so on. */
+  --breakpoint-*: initial;
+  --breakpoint-tiny: 375px;    /* max-tiny:    ≤374  */
+  --breakpoint-mini: 401px;    /* max-mini:    ≤400  */
+  --breakpoint-xs: 481px;      /* max-xs:      ≤480  */
+  --breakpoint-sm: 561px;      /* max-sm:      ≤560  */
+  --breakpoint-phablet: 621px; /* max-phablet: ≤620  */
+  --breakpoint-md: 761px;      /* max-md:      ≤760  */
+  --breakpoint-lg: 901px;      /* max-lg:      ≤900  */
+  --breakpoint-tablet: 981px;  /* max-tablet:  ≤980  */
+  --breakpoint-xl: 1025px;     /* max-xl:      ≤1024 */
+  --breakpoint-desk: 1101px;   /* max-desk:    ≤1100 */
+  --breakpoint-nav: 1181px;    /* max-nav:     ≤1180 */
+  --breakpoint-wide: 1360px;   /* wide:        ≥1360 */
+}
+
+/* Hero copy is hidden until the entrance animation runs (see index.html). */
+@custom-variant mp (:where(.mp) &);
+/* Short desktop windows, and phones held sideways. Declared in this order on purpose. */
+@custom-variant short-wide (@media (max-height: 640px) and (min-width: 761px));
+@custom-variant short-land (@media (max-height: 500px) and (orientation: landscape));
+@custom-variant short-land-520 (@media (max-height: 520px) and (orientation: landscape));
+
+/* ------------------------------------------------------------------
+   Fonts (self-hosted; "PC Digits" gives the serif headings Manrope digits)
+   ------------------------------------------------------------------ */
+@font-face { font-family: "Cormorant Garamond"; font-style: normal; font-weight: 300 700; font-display: swap; src: url("./assets/fonts/cormorant-garamond.woff2") format("woff2"); }
+@font-face { font-family: "Cormorant Garamond"; font-style: italic; font-weight: 300 700; font-display: swap; src: url("./assets/fonts/cormorant-garamond-italic.woff2") format("woff2"); }
+@font-face { font-family: "Manrope"; font-style: normal; font-weight: 200 800; font-display: swap; src: url("./assets/fonts/manrope.woff2") format("woff2"); }
+@font-face { font-family: "PC Digits"; font-style: normal; font-weight: 200 800; font-display: swap; unicode-range: U+0030-0039, U+0025, U+002B; src: url("./assets/fonts/manrope.woff2") format("woff2"); }
+@font-face { font-family: "PC Digits"; font-style: italic; font-weight: 200 800; font-display: swap; unicode-range: U+0030-0039, U+0025, U+002B; src: url("./assets/fonts/manrope.woff2") format("woff2"); }
+
+/* ------------------------------------------------------------------
+   Base element styles
+   ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    color-scheme: light;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    /* gold-leaf text fill, and the faint lotus pattern on sand sections */
+    --foil: linear-gradient(100deg, #9A6E1F 0%, #E2BC63 22%, #FBE9AE 40%, #C99A3E 58%, #F1D486 78%, #A57A28 100%);
+    --pattern-royal: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2272%22%20height%3D%2272%22%20viewBox%3D%220%200%2072%2072%22%3E%3Cg%20fill%3D%22none%22%20stroke%3D%22%23B8893B%22%20stroke-width%3D%221%22%20opacity%3D%22.16%22%3E%3Cpath%20d%3D%22M36%206c6%208%206%2014%200%2020-6-6-6-12%200-20zM36%2066c6-8%206-14%200-20-6%206-6%2012%200%2020zM6%2036c8-6%2014-6%2020%200-6%206-12%206-20%200zM66%2036c-8-6-14-6-20%200%206%206%2012%206%2020%200z%22/%3E%3Ccircle%20cx%3D%2236%22%20cy%3D%2236%22%20r%3D%223%22/%3E%3Cpath%20d%3D%22M0%200l12%2012M72%200L60%2012M0%2072l12-12M72%2072L60%2060%22/%3E%3C/g%3E%3C/svg%3E");
+    /* fluted column shaft */
+    --shaft-flutes: repeating-linear-gradient(90deg, transparent 0, transparent calc(20% - 1px), currentColor calc(20% - 1px), currentColor 20%);
+  }
+  html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
+  body {
+    margin: 0;
+    background: var(--color-ground);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  /* solid strip behind the iOS status bar */
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 60; background: var(--color-ground); }
+  img, svg, video { max-width: 100%; }
+  :focus-visible { outline: 2px solid var(--color-gold-bright); outline-offset: 3px; border-radius: 2px; }
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    margin: 0;
+    letter-spacing: 0;
+    font-optical-sizing: auto;
+    font-size-adjust: .47;
+    text-wrap: balance;
+  }
+  p, li, dd, figcaption, summary { text-wrap: pretty; }
+  summary::-webkit-details-marker { display: none; }
+}
