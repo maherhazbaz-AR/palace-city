@@ -1,3 +1,4 @@
+import { useCallback, useState } from 'react'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Banner from './components/Banner'
@@ -14,19 +15,24 @@ import { SvgDefs } from './components/Ornaments'
 import { SiteProvider } from './lib/site'
 import { useMotionEffects } from './hooks/useMotionEffects'
 import { useWordPress } from './hooks/useWordPress'
+import { useBanner } from './hooks/useBanner'
 import ThankYou from './components/ThankYou'
-import { THANK_YOU_PATH, usePath } from './lib/route'
+import Preloader from './components/Preloader'
+import ErrorBoundary from './components/ErrorBoundary'
+import { NotFound } from './components/StatusPage'
+import { currentPath, isHomePath, routeFor, usePath } from './lib/route'
 
-function Page() {
+function Page({ revealed }) {
   const wp = useWordPress()
-  useMotionEffects()
+  const { status: bannerStatus, banner } = useBanner()
+  useMotionEffects(revealed)
 
   return (
     <>
       <Nav />
       <main>
         <Hero />
-        <Banner wp={wp.banner} />
+        <Banner status={bannerStatus} wp={banner} />
         <Walkthrough />
         <Enquire />
         <Highlights items={wp.highlights} />
@@ -48,13 +54,27 @@ function Page() {
   )
 }
 
+const VIEWS = {
+  'thank-you': () => <ThankYou />,
+  'not-found': () => <NotFound />,
+}
+
 export default function App() {
   const path = usePath()
+  // The loading screen only covers the first visit to the home page; later in-app visits skip it.
+  const [revealed, setRevealed] = useState(() => !isHomePath(currentPath()))
+  const [booted, setBooted] = useState(() => !isHomePath(currentPath()))
+  const reveal = useCallback(() => setRevealed(true), [])
+  const finishBoot = useCallback(() => setBooted(true), [])
+  const renderView = VIEWS[routeFor(path)]
 
   return (
     <SiteProvider>
       <SvgDefs />
-      {path === THANK_YOU_PATH ? <ThankYou /> : <Page />}
+      <ErrorBoundary resetKey={path}>
+        {renderView ? renderView() : <Page revealed={revealed} />}
+      </ErrorBoundary>
+      {!booted && <Preloader onReady={reveal} onDone={finishBoot} />}
     </SiteProvider>
   )
 }

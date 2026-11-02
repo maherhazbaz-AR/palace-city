@@ -4,7 +4,16 @@ import { useCallback, useEffect, useState } from 'react'
    router isn't needed. The host must serve index.html for /thank-you (see README). */
 export const THANK_YOU_PATH = '/thank-you'
 
-const currentPath = () => window.location.pathname.replace(/\/+$/, '') || '/'
+/** Which view a path shows. Anything unknown is a 404. */
+export const routeFor = (path) => {
+  if (path === '/' || path === '/index.html') return 'home'
+  if (path === THANK_YOU_PATH) return 'thank-you'
+  return 'not-found'
+}
+
+export const isHomePath = (path) => routeFor(path) === 'home'
+
+export const currentPath = () => window.location.pathname.replace(/\/+$/, '') || '/'
 
 /** Current path, kept in sync with the Back/Forward buttons. */
 export function usePath() {

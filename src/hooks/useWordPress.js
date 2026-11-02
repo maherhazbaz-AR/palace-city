@@ -2,26 +2,24 @@ import { useEffect, useState } from 'react'
 
 /* ============================================================
    WORDPRESS CONTENT
-   Set WP_SITE to your WordPress address, for example
-   "https://www.adityarampalacecity.com". Then manage content with
-   ordinary posts in three categories (slugs):
-     banner       – newest post fills the banner. Title = headline,
-                    excerpt = text, first link in the post = button,
-                    featured image = optional picture, first tag = small label.
+   The WordPress address comes from VITE_WP_URL (see .env.example). Then
+   manage content with ordinary posts in two categories (slugs):
      highlight    – each post is one highlight card (up to 6).
                     Title = heading, excerpt = text, featured image = photo.
      testimonial  – each post is one testimonial (up to 6).
                     Title = name, excerpt = quote, first tag = villa type or city.
    If WP_SITE is empty or WordPress can’t be reached, the built-in
    content shows (and the testimonial section hides on the live site).
+   The announcement banner has its own endpoint: see useBanner.js.
    ============================================================ */
-export const WP_SITE = 'https://adityarampalacecity.com'
+// `??` (not `||`) so VITE_WP_URL= (empty) switches WordPress off on purpose.
+export const WP_SITE = (import.meta.env.VITE_WP_URL ?? 'https://adityarampalacecity.com').replace(/\/+$/, '')
 
-const text = (html) => {
+export const text = (html) => {
   const d = new DOMParser().parseFromString(html || '', 'text/html')
   return (d.body.textContent || '').replace(/\s+/g, ' ').trim()
 }
-const safeUrl = (u) => (/^(https?:|tel:|mailto:|#)/i.test(u || '') ? u : '')
+export const safeUrl = (u) => (/^(https?:|tel:|mailto:|#)/i.test(u || '') ? u : '')
 const featured = (p) => {
   try {
     const m = p._embedded['wp:featuredmedia'][0]
@@ -38,11 +36,6 @@ const firstTag = (p) => {
     return ''
   }
 }
-const firstLink = (html) => {
-  const a = new DOMParser().parseFromString(html || '', 'text/html').querySelector('a[href]')
-  return a ? { href: safeUrl(a.getAttribute('href')), label: a.textContent.trim() } : null
-}
-
 async function posts(base, slug, n) {
   const c = await (await fetch(`${base}/categories?slug=${encodeURIComponent(slug)}`)).json()
   if (!Array.isArray(c) || !c.length) return []
@@ -57,7 +50,6 @@ async function posts(base, slug, n) {
  */
 export function useWordPress() {
   const [state, setState] = useState({
-    banner: null,
     highlights: null,
     testimonials: null,
     testimonialsHidden: Boolean(WP_SITE),
@@ -65,24 +57,8 @@ export function useWordPress() {
 
   useEffect(() => {
     if (!WP_SITE) return
-    const base = WP_SITE.replace(/\/+$/, '') + '/wp-json/wp/v2'
+    const base = WP_SITE + '/wp-json/wp/v2'
     const patch = (p) => setState((s) => ({ ...s, ...p }))
-
-    posts(base, 'banner', 1)
-      .then(([p]) => {
-        if (!p) return
-        const link = firstLink(p.content.rendered)
-        patch({
-          banner: {
-            title: text(p.title.rendered),
-            text: text(p.excerpt.rendered) || null,
-            tag: firstTag(p),
-            link: link && link.href ? link : null,
-            image: featured(p),
-          },
-        })
-      })
-      .catch(() => {})
 
     posts(base, 'highlight', 6)
       .then((list) => {

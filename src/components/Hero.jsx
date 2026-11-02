@@ -55,7 +55,6 @@ export default function Hero() {
             data-hero-item
             className={cx(softGlow, "mt-[clamp(1.25rem,3vh,2rem)] mb-0 font-display text-[clamp(1.65rem,3.4vw,2.75rem)] leading-[1.15] font-semibold tracking-[.005em] text-cream italic [font-size-adjust:.47] mp:opacity-0 short-land:mt-[.8rem] short-land:text-[1.5rem]")}
           >
-            Live in a palace by the sea
           </p>
           <p
             data-hero-item

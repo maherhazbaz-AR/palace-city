@@ -13,9 +13,43 @@
 <!-- Set the theme before first paint so there is no light flash in dark mode. -->
 <script>try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}</script>
 <script>document.documentElement.classList.add("mp");setTimeout(function(){document.documentElement.classList.remove("mp")},3000);</script>
+<!-- Loading splash: pure HTML/CSS so it paints instantly, before any JavaScript arrives.
+     src/components/Preloader.jsx renders the same markup and takes over once React starts. -->
+<style>
+.boot{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:24px;text-align:center;color:#E2BC63;
+  background:radial-gradient(ellipse 70% 55% at 50% 30%,rgba(168,58,84,.32),transparent 72%),#2A0E15;transition:opacity .6s ease,visibility .6s}
+html[data-theme="dark"] .boot{background:radial-gradient(ellipse 70% 55% at 50% 30%,rgba(168,58,84,.26),transparent 72%),#1E0910}
+.boot--out{opacity:0;visibility:hidden}
+.boot svg{width:60px;height:60px;animation:boot-breathe 2.4s ease-in-out infinite}
+.boot-name{margin:-4px 0 0;font:600 11px/1 Georgia,"Times New Roman",serif;letter-spacing:.42em;text-transform:uppercase;color:#E9CD7B;padding-left:.42em}
+.boot-bar{position:relative;width:132px;height:1px;overflow:hidden;background:rgba(226,188,99,.25)}
+.boot-bar::after{content:"";position:absolute;inset:0;width:45%;background:linear-gradient(90deg,transparent,#E9CD7B,transparent);animation:boot-sweep 1.5s ease-in-out infinite}
+.boot-msg{display:none;margin:0;max-width:30ch;font:400 14px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;color:#E9DCCB}
+.boot-msg button{display:block;margin:14px auto 0;padding:11px 22px;border:1px solid rgba(233,205,123,.7);background:transparent;color:#F6EBD6;font:600 14px system-ui,sans-serif;cursor:pointer}
+.boot-msg button:hover{background:rgba(233,205,123,.15)}
+.boot--slow .boot-msg{display:block}
+.boot--slow .boot-bar{display:none}
+@keyframes boot-sweep{from{transform:translateX(-120%)}to{transform:translateX(320%)}}
+@keyframes boot-breathe{0%,100%{opacity:.7;transform:scale(1)}50%{opacity:1;transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){.boot{transition:none}.boot svg,.boot-bar::after{animation:none}}
+</style>
 </head>
 <body>
-<div id="root"></div>
+<div id="root"><div id="boot" class="boot" role="status" aria-live="polite" aria-label="Loading Adityaram Palace City">
+  <svg viewBox="0 0 40 40" aria-hidden="true"><path fill="currentColor" d="M20 2C14 10 14 18 20 24 26 18 26 10 20 2ZM18 22C10 24 4 18 6 12 9 15 13 16 16 15 14 18 15 21 18 22ZM22 22C30 24 36 18 34 12 31 15 27 16 24 15 26 18 25 21 22 22ZM11 24H29V27H11ZM17 28C17 32 14 35 12 37H28C26 35 23 32 23 28Z"/></svg>
+  <p class="boot-name">Palace City</p>
+  <div class="boot-bar"></div>
+  <p class="boot-msg">This is taking longer than usual. Please check your connection and try again.<button type="button" onclick="location.reload()">Reload</button></p>
+</div></div>
+<noscript><style>.boot{display:none}</style><p style="font:16px/1.6 system-ui,sans-serif;max-width:44ch;margin:20vh auto;padding:0 24px;text-align:center">Adityaram Palace City needs JavaScript to run. Please enable it, or call +91 95004 61555.</p></noscript>
+<script>
+/* If the app never starts (slow network, blocked or failed script), swap the spinner for a retry message. */
+(function(){
+  function slow(){var b=document.getElementById("boot");if(b)b.classList.add("boot--slow")}
+  setTimeout(slow,12000);
+  addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="SCRIPT")slow()},true);
+})();
+</script>
 <script type="module" src="/src/main.jsx"></script>
 </body>
 </html>

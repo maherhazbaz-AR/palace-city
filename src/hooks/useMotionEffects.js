@@ -12,8 +12,9 @@ const easeRoyal = [0.22, 1, 0.36, 1]
  *  - pulsing map marker       [data-pulse]
  * Everything is skipped when the visitor prefers reduced motion.
  */
-export function useMotionEffects() {
+export function useMotionEffects(enabled = true) {
   useEffect(() => {
+    if (!enabled) return // held back while the loading screen covers the page
     const root = document.documentElement
     const done = () => root.classList.remove('mp')
     if (prefersReducedMotion()) {
@@ -77,5 +78,5 @@ export function useMotionEffects() {
       stops.forEach((s) => s())
       pulse?.stop()
     }
-  }, [])
+  }, [enabled])
 }
