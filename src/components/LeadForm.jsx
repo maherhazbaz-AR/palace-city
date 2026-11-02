@@ -4,7 +4,7 @@ import { VILLA_OPTIONS, VISIT_OPTIONS } from '../data/content'
 import { MessageCircle } from 'lucide-react'
 import { PHONE_LABEL, PHONE_TEL, btn, cx } from '../lib/ui'
 import { prefersReducedMotion, useSite } from '../lib/site'
-import { submitLead } from '../lib/cf7'
+import { preloadRecaptcha, submitLead } from '../lib/cf7'
 import { THANK_YOU_PATH, navigate } from '../lib/route'
 
 /** Set to the Privacy Policy page URL and the consent line below becomes a link. */
@@ -95,7 +95,7 @@ export default function LeadForm({
       data-reveal
     >
       {status === 'idle' || status === 'sending' ? (
-        <form noValidate onSubmit={submit} aria-busy={status === 'sending'}>
+        <form noValidate onSubmit={submit} onFocus={preloadRecaptcha} aria-busy={status === 'sending'}>
           <h2 className={h2}>{heading}</h2>
           <p className="my-[1em]">{intro}</p>
 
