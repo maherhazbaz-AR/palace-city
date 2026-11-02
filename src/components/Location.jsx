@@ -4,10 +4,10 @@ import { block, cx, h2Section, wrap } from '../lib/ui'
 
 const label = 'font-body fill-ink [font-size:15px]'
 const sub = 'font-body fill-muted [font-size:13px]'
-const INK = '#3A2A1F'
-const GOLD = '#94692A'
-const MUTED = '#6F5F51'
-const SEA = '#7A2335'
+const INK = 'var(--color-ink)'
+const GOLD = 'var(--color-gold)'
+const MUTED = 'var(--color-muted)'
+const SEA = 'var(--color-maroon)'
 
 function SchematicMap() {
   return (
@@ -65,7 +65,7 @@ export default function Location() {
         </div>
         <figure
           data-reveal
-          className="relative m-0 rounded bg-sand p-6 shadow-[inset_0_0_0_1px_rgba(201,161,90,.45),inset_0_0_0_6px_#F4EBDD,inset_0_0_0_7px_rgba(201,161,90,.3)]"
+          className="relative m-0 rounded bg-sand p-6 shadow-[inset_0_0_0_1px_rgba(201,161,90,.45),inset_0_0_0_6px_var(--color-sand),inset_0_0_0_7px_rgba(201,161,90,.3)]"
         >
           <SchematicMap />
         </figure>

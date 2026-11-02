@@ -14,6 +14,8 @@ import { SvgDefs } from './components/Ornaments'
 import { SiteProvider } from './lib/site'
 import { useMotionEffects } from './hooks/useMotionEffects'
 import { useWordPress } from './hooks/useWordPress'
+import ThankYou from './components/ThankYou'
+import { THANK_YOU_PATH, usePath } from './lib/route'
 
 function Page() {
   const wp = useWordPress()
@@ -21,7 +23,6 @@ function Page() {
 
   return (
     <>
-      <SvgDefs />
       <Nav />
       <main>
         <Hero />
@@ -48,9 +49,12 @@ function Page() {
 }
 
 export default function App() {
+  const path = usePath()
+
   return (
     <SiteProvider>
-      <Page />
+      <SvgDefs />
+      {path === THANK_YOU_PATH ? <ThankYou /> : <Page />}
     </SiteProvider>
   )
 }

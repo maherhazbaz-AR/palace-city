@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Adityaram Palace City ECR | From ₹5 Cr | Palace-Themed Homes</title>
 <meta name="description" content="South India’s first palace-themed villas on ECR, Chennai. 4 and 5 BHK villas from ₹5 Cr, CMDA and RERA approved, 72% open space, walking distance to the beach. Book a site visit.">
+<meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
 <link rel="preload" as="image" href="/media/hero-poster.jpg">
 <!-- Hide the hero copy until the entrance animation starts (failsafe: shown after 3s). -->
+<!-- Set the theme before first paint so there is no light flash in dark mode. -->
+<script>try{var t=localStorage.getItem("theme");if(t!=="dark"&&t!=="light")t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.dataset.theme=t}catch(e){}</script>
 <script>document.documentElement.classList.add("mp");setTimeout(function(){document.documentElement.classList.remove("mp")},3000);</script>
 </head>
 <body>

@@ -29,7 +29,7 @@ export function WhatsAppIcon({ className }) {
   )
 }
 
-const goldLine = 'h-px w-14'
+const goldLine = 'relative h-px w-[4.5rem] after:absolute after:top-1/2 after:size-[5px] after:-translate-y-1/2 after:rotate-45 after:bg-gold-bright'
 
 /**
  * Fleur ornament above headings. Left-aligned by default (single trailing
@@ -42,11 +42,11 @@ export function RoyalOrn({ center = false, tight = false, ...rest }) {
       className={cx('flex items-center gap-3 text-gold-bright', tight ? 'mb-4' : 'mb-[1.1rem]', center && 'justify-center')}
       {...rest}
     >
-      <span className={cx(goldLine, 'bg-[linear-gradient(90deg,transparent,#C9A15A)]', center ? 'block' : 'hidden')} />
-      <svg className="size-[22px] flex-none">
+      <span className={cx(goldLine, 'bg-[linear-gradient(90deg,transparent,var(--color-gold-bright))] after:left-0', center ? 'block' : 'hidden')} />
+      <svg className="size-[26px] flex-none">
         <use href="#fleur" />
       </svg>
-      <span className={cx(goldLine, 'bg-[linear-gradient(90deg,#C9A15A,transparent)]')} />
+      <span className={cx(goldLine, 'bg-[linear-gradient(90deg,var(--color-gold-bright),transparent)] after:right-0')} />
     </div>
   )
 }

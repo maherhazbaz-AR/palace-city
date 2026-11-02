@@ -22,10 +22,10 @@ export default function Banner({ wp }) {
           {wp?.image && <img className="block size-full object-cover" src={wp.image} alt="" />}
         </figure>
         <div data-reveal className="min-w-[260px] flex-1">
-          <p hidden={!tag} className="mt-0 mb-[.35rem] font-display text-[1.2rem] font-semibold text-[#E9CD7B] italic">
+          <p hidden={!tag} className="mt-0 mb-[.35rem] font-display text-[1.2rem] font-semibold text-gold-soft italic">
             {tag}
           </p>
-          <h2 className="text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] text-[#FFF7E6]">
+          <h2 className="text-[clamp(1.7rem,3vw,2.5rem)] leading-[1.12] text-cream">
             {wp?.title || 'The show villa is open for private tours'}
           </h2>
           <p className="mt-2 mb-0 text-[rgba(251,243,228,.85)]">

@@ -4,7 +4,7 @@ import { PERKS } from '../data/content'
 import { PHONE_LABEL, PHONE_TEL, cx, royalPattern, wrap } from '../lib/ui'
 import { useSite } from '../lib/site'
 
-export const callLink = 'inline-block font-display text-[clamp(1.6rem,3vw,2.3rem)] text-maroon no-underline lining-nums tabular-nums'
+export const callLink = 'inline-block font-display text-[clamp(1.6rem,3vw,2.3rem)] text-accent no-underline lining-nums tabular-nums'
 
 export default function Enquire() {
   const { enquiryVilla, setEnquiryVilla } = useSite()
@@ -37,7 +37,6 @@ export default function Enquire() {
           heading="Book a private tour"
           intro="Get the price list, brochure, floor plans and a private tour of the show villa."
           submitLabel="Get price list and book visit"
-          sentText="Press send in WhatsApp to confirm your visit. If WhatsApp didn’t open, call us and we’ll book it for you."
           villa={enquiryVilla}
           onVillaChange={setEnquiryVilla}
           tightHeading

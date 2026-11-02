@@ -233,9 +233,9 @@ export default function Walkthrough() {
         id="walk"
         ref={walkRef}
         aria-label="Scroll walkthrough of a Palace City villa"
-        className="relative h-[1000vh] bg-[#2A1F17] max-md:h-[720vh]"
+        className="relative h-[1000vh] bg-ink-deep max-md:h-[720vh]"
       >
-        <div className="sticky top-0 h-svh overflow-hidden bg-[#2A1F17] bg-cover bg-center bg-no-repeat text-white">
+        <div className="sticky top-0 h-svh overflow-hidden bg-ink-deep bg-cover bg-center bg-no-repeat text-white">
           <video
             ref={videoRef}
             className="absolute inset-0 size-full object-cover [backface-visibility:hidden] [transform:translateZ(0)]"

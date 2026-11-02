@@ -7,7 +7,7 @@ import { useJump } from '../lib/site'
 
 export default function Footer() {
   return (
-    <footer className="bg-[#3A2A1F] pt-14 pb-[calc(2.5rem_+_env(safe-area-inset-bottom,0px))] text-[.88rem] text-[#E2D5C4] max-md:pb-[calc(5.5rem_+_env(safe-area-inset-bottom,0px))]">
+    <footer className="border-t border-[rgba(226,188,99,.35)] bg-[color-mix(in_srgb,var(--color-chamber)_72%,black)] pt-14 pb-[calc(2.5rem_+_env(safe-area-inset-bottom,0px))] text-[.88rem] text-[#E2D5C4] max-md:pb-[calc(5.5rem_+_env(safe-area-inset-bottom,0px))]">
       <div className={cx(wrap, 'mb-8 flex flex-col flex-wrap items-center justify-between gap-8 border-b border-[rgba(201,161,90,.3)] pb-8 max-md:pb-0')}>
         <PalaceCityLogo className="block h-auto w-[min(320px,70vw)]" />
         <RoyalOrn center />
@@ -53,17 +53,17 @@ export function Dock() {
   return (
     <div
       className={cx(
-        'fixed inset-x-0 bottom-0 z-40 hidden gap-[.6rem] bg-[rgba(251,247,240,.97)] px-4 pt-[.6rem] pb-[calc(.6rem_+_env(safe-area-inset-bottom,0px))]',
-        'shadow-[0_-1px_0_rgba(58,42,31,.12)] transition-transform duration-300 ease-[ease] max-md:flex',
+        'fixed inset-x-0 bottom-0 z-40 hidden gap-[.6rem] bg-ground/97 px-4 pt-[.6rem] pb-[calc(.6rem_+_env(safe-area-inset-bottom,0px))]',
+        'shadow-[0_-1px_0_color-mix(in_srgb,var(--color-shadow)_12%,transparent)] transition-transform duration-300 ease-[ease] max-md:flex',
         show ? '[transform:none]' : '[transform:translateY(110%)]',
       )}
     >
       <a className={btn('lineSolid', 'md', dockBtn)} href={PHONE_TEL}>Call</a>
-      <a className={btn('wa', 'md', cx(dockBtn, 'max-tiny:[&_svg]:hidden'))} href={WA_LINK} target="_blank" rel="noopener">
+      <a className={btn('wa', 'md', cx(dockBtn, 'max-tiny:[&_svg]:hidden'))} href={WA_LINK} target="_blank" rel="noopener noreferrer">
         <WhatsAppIcon />
         WhatsApp
       </a>
-      <a className={btn('gold', 'md', dockBtn)} {...jumpTo('lead', '#enquire')}>Book a visit</a>
+      <a className={btn('maroon', 'md', dockBtn)} {...jumpTo('lead', '#enquire')}>Book a visit</a>
     </div>
   )
 }
@@ -74,7 +74,7 @@ export function WhatsAppFloat() {
       className="fixed right-5 bottom-[calc(1.25rem_+_env(safe-area-inset-bottom,0px))] z-[45] flex size-[58px] items-center justify-center rounded-full bg-wa text-white shadow-[0_10px_30px_-8px_rgba(0,0,0,.35)] transition-[transform,box-shadow,scale] duration-150 ease-[ease-out] active:scale-[.96] max-md:hidden"
       href={WA_LINK}
       target="_blank"
-      rel="noopener"
+      rel="noopener noreferrer"
       aria-label="Chat with us on WhatsApp"
     >
       <WhatsAppIcon className="size-7" />

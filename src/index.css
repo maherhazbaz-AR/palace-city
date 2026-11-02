@@ -15,6 +15,21 @@
   --color-sand: #F4EBDD;
   --color-wa: #25D366;
   --color-on-dark-muted: #E9DCCB;
+  --color-surface: #FFFFFF;        /* raised cards, form fields' container */
+  --color-line-strong: rgba(58, 42, 31, .35);
+  --color-shadow: #3A2A1F;         /* tint for drop shadows */
+  --color-accent: #7A2335;         /* maroon used as TEXT / outline (fills keep --color-maroon) */
+  --color-danger: #A3361C;
+  --color-gold-soft: #E9CD7B;      /* gold on dark/photo surfaces */
+  --color-cream: #FFF7E6;          /* headings on dark/photo surfaces */
+  --color-ink-deep: #2A1F17;       /* dark panels: walkthrough, video dialog */
+  --color-sand-deep: #E9E2D6;      /* image-loading fallback */
+  --color-wa-hover: #3BE07B;
+  --color-on-wa: #0B2E1A;
+
+  --color-chamber: #2A0E15;        /* deep palace oxblood: dark sections, footer */
+
+  --tracking-display: -.02em;      /* large serif headings */
 
   --font-display: "PC Digits", "Cormorant Garamond", Cormorant, Garamond, "Times New Roman", serif;
   --font-body: "Manrope", "Helvetica Neue", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -39,6 +54,7 @@
 
 /* Hero copy is hidden until the entrance animation runs (see index.html). */
 @custom-variant mp (:where(.mp) &);
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 /* Short desktop windows, and phones held sideways. Declared in this order on purpose. */
 @custom-variant short-wide (@media (max-height: 640px) and (min-width: 761px));
 @custom-variant short-land (@media (max-height: 500px) and (orientation: landscape));
@@ -54,6 +70,94 @@
 @font-face { font-family: "PC Digits"; font-style: italic; font-weight: 200 800; font-display: swap; unicode-range: U+0030-0039, U+0025, U+002B; src: url("./assets/fonts/manrope.woff2") format("woff2"); }
 
 /* ------------------------------------------------------------------
+   Palace tones
+   A tone class remaps the semantic tokens for everything inside it, so
+   existing components (text-ink, text-muted, border-line, bg-surface...)
+   re-colour themselves with no changes of their own.
+     .tone-palace  dark oxblood + gold, like a palace interior
+     .tone-ivory   light ivory, for a card placed inside a dark section
+     .chamber      tone-palace plus texture and a scalloped (cusped-arch) edge
+   ------------------------------------------------------------------ */
+@layer components {
+  .tone-palace {
+    color-scheme: dark;
+    --color-ground: #2A0E15;
+    --color-ink: #F6EBD6;
+    --color-muted: #D9C7AE;
+    --color-line: rgba(226, 188, 99, .28);
+    --color-line-strong: rgba(226, 188, 99, .55);
+    --color-sand: #35131C;
+    --color-surface: #3B1823;
+    --color-gold: #E2BC63;
+    --color-accent: #F0CB8A;
+    --color-danger: #FF9A82;
+    --color-shadow: #000000;
+    color: var(--color-ink);
+  }
+  .tone-ivory {
+    color-scheme: light;
+    --color-ground: #FBF7F0;
+    --color-ink: #3A2A1F;
+    --color-muted: #6F5F51;
+    --color-line: rgba(58, 42, 31, .12);
+    --color-line-strong: rgba(58, 42, 31, .35);
+    --color-sand: #F4EBDD;
+    --color-surface: #FFFDF8;
+    --color-gold: #94692A;
+    --color-accent: #7A2335;
+    --color-danger: #A3361C;
+    --color-shadow: #3A2A1F;
+    color: var(--color-ink);
+  }
+
+  .chamber {
+    --chamber-bg: var(--color-chamber);
+    position: relative;
+    background-color: var(--chamber-bg);
+    background-image:
+      radial-gradient(ellipse 70% 55% at 50% 0%, rgba(168, 58, 84, .32), transparent 72%),
+      radial-gradient(ellipse 60% 50% at 50% 100%, rgba(226, 188, 99, .10), transparent 70%),
+      var(--pattern-royal);
+    background-size: auto, auto, 72px 72px;
+    border-top-color: transparent;
+  }
+  :root[data-theme="dark"] .chamber { --chamber-bg: #1E0910; }
+
+  /* scalloped edges: a row of domes rising above the section and hanging below it */
+  .chamber::before,
+  .chamber::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 15px;
+    z-index: 2;
+    pointer-events: none;
+    background-repeat: repeat-x;
+    background-size: 32px 15px;
+  }
+  .chamber::before {
+    top: -14px;
+    background-image: radial-gradient(circle at 50% 100%, var(--chamber-bg) 0 15px, transparent 15.5px);
+    background-position: 0 100%;
+  }
+  .chamber::after {
+    bottom: -14px;
+    background-image: radial-gradient(circle at 50% 0, var(--chamber-bg) 0 15px, transparent 15.5px);
+    background-position: 0 0;
+  }
+
+  /* gold-leaf text, for display numerals and key headlines */
+  .text-foil {
+    background-image: var(--foil);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+}
+
+/* ------------------------------------------------------------------
    Base element styles
    ------------------------------------------------------------------ */
 @layer base {
@@ -67,6 +171,28 @@
     /* fluted column shaft */
     --shaft-flutes: repeating-linear-gradient(90deg, transparent 0, transparent calc(20% - 1px), currentColor calc(20% - 1px), currentColor 20%);
   }
+
+  /* ------------------------------------------------------------------
+     Dark theme: warm deep brown, not an inversion.
+     Elevation = lighter surface (ground < sand < surface), not shadow.
+     Text is warm cream; gold brightens and maroon text becomes a rose
+     accent so contrast stays >= 4.5:1. Fills (bg-maroon, buttons) keep
+     their brand colour.
+     ------------------------------------------------------------------ */
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --color-ground: #17110C;
+    --color-ink: #F1E8DA;
+    --color-muted: #B9A995;
+    --color-line: rgba(241, 232, 218, .14);
+    --color-line-strong: rgba(241, 232, 218, .35);
+    --color-sand: #211812;
+    --color-surface: #2A2019;
+    --color-shadow: #000000;
+    --color-gold: #C9A15A;
+    --color-accent: #E58C9D;
+    --color-danger: #FF9A82;
+  }
   html { scroll-padding-top: calc(env(safe-area-inset-top, 0px) + 72px); }
   body {
     margin: 0;
@@ -74,7 +200,7 @@
     color: var(--color-ink);
     font-family: var(--font-body);
     font-size: 1.0625rem;
-    line-height: 1.8;
+    line-height: 1.7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -91,6 +217,7 @@
     font-size-adjust: .47;
     text-wrap: balance;
   }
+  h1, h2 { letter-spacing: var(--tracking-display); }
   p, li, dd, figcaption, summary { text-wrap: pretty; }
   summary::-webkit-details-marker { display: none; }
 }

@@ -1,18 +1,18 @@
 import { Pillars, SectionHead } from './Ornaments'
 import { ADVANTAGES, AMENITIES, SAMPLE_TESTIMONIALS } from '../data/content'
-import { block, cx, royalPattern, wrap } from '../lib/ui'
+import { block, chamber, cx, royalPattern, wrap } from '../lib/ui'
 
 export function Advantages() {
   return (
     <section id="advantages" className={cx(block, royalPattern)}>
       <div className={wrap}>
         <SectionHead title="Why Palace City stands apart" text="An approved, freehold address on Chennai’s most sought-after coastal stretch." />
-        <ul className="m-0 grid max-w-[1000px] list-none grid-cols-2 gap-x-20 gap-y-[3.25rem] p-0 max-lg:grid-cols-[repeat(2,1fr)] max-lg:gap-10 max-sm:grid-cols-1">
+        <ul className="m-0 grid max-w-[1000px] list-none [counter-reset:adv] grid-cols-2 gap-x-20 gap-y-[3.25rem] p-0 max-lg:grid-cols-[repeat(2,1fr)] max-lg:gap-10 max-sm:grid-cols-1">
           {ADVANTAGES.map((a) => (
             <li
               key={a.title}
               data-reveal
-              className="relative border-t border-[rgba(201,161,90,.55)] pt-[1.4rem] before:absolute before:-top-1 before:left-0 before:size-[7px] before:rotate-45 before:bg-gold-bright"
+              className="relative border-t border-[rgba(201,161,90,.55)] pt-[1.4rem] pr-16 [counter-increment:adv] before:absolute before:-top-1 before:left-0 before:size-[7px] before:rotate-45 before:bg-gold-bright after:absolute after:top-[.9rem] after:right-0 after:font-display after:text-[2.8rem] after:leading-none after:text-gold-bright/45 after:content-[counter(adv,upper-roman)]"
             >
               <h3 className="text-[1.6rem] leading-[1.2]">{a.title}</h3>
               <p className="mt-[.7rem] mb-0 text-[1rem] text-muted">{a.text}</p>
@@ -26,7 +26,7 @@ export function Advantages() {
 
 export function Amenities() {
   return (
-    <section id="amenities" className={block}>
+    <section id="amenities" className={cx(block, chamber)}>
       <div className={wrap}>
         <SectionHead title="Everything within the palace walls" text="20+ amenities for every generation, behind a grand entrance arch." />
         <ul className="m-0 grid list-none grid-cols-[repeat(4,1fr)] gap-x-10 p-0 max-lg:grid-cols-[repeat(2,1fr)] max-xs:grid-cols-1">
@@ -55,7 +55,7 @@ export function Testimonials({ items, hidden }) {
               key={i}
               data-reveal
               className={cx(
-                'relative flex flex-col rounded bg-white px-8 pt-[2.6rem] pb-8 shadow-[0_22px_50px_-32px_rgba(58,42,31,.45)]',
+                'relative flex flex-col rounded bg-surface px-8 pt-[2.6rem] pb-8 shadow-[0_22px_50px_-32px_color-mix(in_srgb,var(--color-shadow)_45%,transparent)]',
                 'before:pointer-events-none before:absolute before:inset-2 before:rounded-[2px] before:border before:border-[rgba(201,161,90,.45)]',
                 "after:absolute after:top-[.2rem] after:left-[1.6rem] after:font-quote after:text-[4.5rem] after:leading-none after:text-gold-bright after:content-['“']",
                 t.placeholder && 'border border-dashed border-[rgba(184,137,59,.6)] opacity-75',

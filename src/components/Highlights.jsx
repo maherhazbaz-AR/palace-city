@@ -9,13 +9,13 @@ export default function Highlights({ items }) {
       <Pillars />
       <div className={cx(wrap, 'relative z-[1]')}>
         <SectionHead center title="Project highlights" text="The details that make every Palace City villa feel like a palace." />
-        <ul className="m-0 grid list-none grid-cols-3 gap-x-[clamp(1.5rem,3vw,2.5rem)] gap-y-[clamp(2rem,4vw,3.5rem)] p-0 max-tablet:grid-cols-2 max-phablet:grid-cols-1">
+        <ul className="m-0 grid list-none grid-cols-3 gap-x-[clamp(1.5rem,3vw,2.5rem)] gap-y-[clamp(2.5rem,5vw,4rem)] p-0 max-tablet:grid-cols-2 max-phablet:grid-cols-1">
           {list.map((h) => (
-            <li key={h.title} data-reveal className="group">
+            <li key={h.title} data-reveal className="group text-center tablet:[&:nth-child(3n+2)]:mt-16">
               {h.img && (
-                <figure className="mx-0 mt-0 mb-[1.2rem] aspect-[4/3] overflow-hidden bg-white p-[6px] shadow-[inset_0_0_0_1px_rgba(201,161,90,.6),0_18px_40px_-26px_rgba(58,42,31,.5)]">
+                <figure className="mx-0 mt-0 mb-[1.5rem] aspect-[4/5] overflow-hidden rounded-t-full bg-surface p-[7px] shadow-[inset_0_0_0_1px_rgba(201,161,90,.75),0_28px_50px_-30px_color-mix(in_srgb,var(--color-shadow)_55%,transparent)]">
                   <img
-                    className="block size-full object-cover outline outline-black/8 -outline-offset-1 transition-transform duration-600 ease-[ease-out] group-hover:scale-[1.04]"
+                    className="block size-full rounded-t-full object-cover transition-transform duration-700 ease-[ease-out] group-hover:scale-[1.05]"
                     src={h.img}
                     alt=""
                     loading="lazy"
@@ -23,8 +23,8 @@ export default function Highlights({ items }) {
                   />
                 </figure>
               )}
-              <h3 className="text-[1.55rem] leading-[1.2]">{h.title}</h3>
-              <p className="mt-2 mb-0 text-[.98rem] text-muted">{h.text}</p>
+              <h3 className="text-[1.7rem] leading-[1.2]">{h.title}</h3>
+              <p className="mx-auto mt-2 mb-0 max-w-[34ch] text-[.98rem] text-muted">{h.text}</p>
             </li>
           ))}
         </ul>

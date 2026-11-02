@@ -1,6 +1,6 @@
 import { RoyalOrn } from './Ornaments'
 import { FACTS } from '../data/content'
-import { block, cx, wrap } from '../lib/ui'
+import { block, chamber, cx, wrap } from '../lib/ui'
 
 /** Column dividers for the facts row, matching each breakpoint's column count. */
 function factCell(i) {
@@ -14,15 +14,15 @@ function factCell(i) {
 
 export default function About() {
   return (
-    <section id="about" className={block}>
+    <section id="about" className={cx(block, chamber)}>
       <div className={wrap}>
         <div className="grid grid-cols-[1.1fr_1fr] items-end gap-[clamp(2rem,6vw,6rem)] *:min-w-0 max-lg:grid-cols-1">
           <div data-reveal>
             <RoyalOrn />
-            <h2 className="text-[clamp(2.2rem,4.8vw,3.9rem)] leading-[1.08] text-ink">Where heritage meets modern luxury</h2>
+            <h2 className="text-foil text-[clamp(2.5rem,5.6vw,4.8rem)] leading-[1.02]">Where heritage meets modern luxury</h2>
           </div>
           <div data-reveal>
-            <p className="mt-0 mb-4 max-w-[46ch] text-muted">
+            <p className="mt-0 mb-4 max-w-[46ch] text-muted first-letter:float-left first-letter:mr-3 first-letter:font-display first-letter:text-[4.4rem] first-letter:leading-[.78] first-letter:text-gold">
               Inspired by the neo-classical palaces of Europe and the royal heritage of Rajasthan, Palace City is South India’s first
               palace-themed villa community, on the Akkarai stretch of ECR.
             </p>
@@ -36,7 +36,7 @@ export default function About() {
         <dl className="mt-[clamp(3.5rem,7vw,6rem)] mb-0 grid grid-cols-[repeat(5,1fr)] border-t border-line lg:max-desk:grid-cols-[repeat(3,1fr)] max-lg:grid-cols-[repeat(2,1fr)]">
           {FACTS.map((f, i) => (
             <div key={f.label} data-reveal className={factCell(i)}>
-              <dt data-countup className="font-display text-[clamp(1.3rem,1.9vw,1.75rem)] text-maroon lining-nums tabular-nums">
+              <dt data-countup className="font-display text-[clamp(1.5rem,2.2vw,2.05rem)] whitespace-nowrap text-accent lining-nums tabular-nums">
                 {f.value}
               </dt>
               <dd className="mx-0 mt-[.2rem] mb-0 text-[.95rem] text-muted">{f.label}</dd>
