@@ -75,7 +75,7 @@ export default function LeadForm({
     if (next.email) return emailRef.current.focus()
 
     const msg = `Hello, I’m interested in Adityaram Palace City.\nName: ${name.trim()}\nMobile: +91 ${digits}\nInterested in: ${villa}\nVisit: ${when}\nPlease share: ${askFor.current}.`
-    setWhatsappUrl(`https://wa.me/919500461555?text=${encodeURIComponent(msg)}`)
+    setWhatsappUrl(`https://wa.me/917305088993?text=${encodeURIComponent(msg)}`)
     setStatus('sending')
     const { ok } = await submitLead({ name: name.trim(), phone: digits, email: email.trim(), villa, visit: when, note: askFor.current })
     if (ok) return navigate(THANK_YOU_PATH, { name: name.trim() })

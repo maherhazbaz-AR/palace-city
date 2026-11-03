@@ -1,22 +1,37 @@
 import { PalaceCityLogo } from './Logos'
+import { RoyalOrn } from './Ornaments'
 import { MEDIA, RERA, TRUST } from '../data/content'
 import { btn, cx, wrap } from '../lib/ui'
 import { prefersReducedMotion, useJump } from '../lib/site'
 
-const softGlow = '[text-shadow:0_1px_14px_rgba(0,0,0,.35)]'
-const darkGlow = '[text-shadow:0_1px_10px_rgba(0,0,0,.4)]'
+/*
+ * The film is mostly cream marble and white facades, so a flat overlay either
+ * dulls it or leaves the copy unreadable. The scrim is shaped instead: an
+ * ellipse of shade behind the centred copy, a band at the top so the nav reads
+ * on bright frames, and a lift at the bottom for the trust bar.
+ * Class strings are written out in full so Tailwind can detect them.
+ */
+const scrim = cx(
+  'pointer-events-none absolute inset-0',
+  'bg-[radial-gradient(ellipse_55%_50%_at_50%_50%,color-mix(in_srgb,var(--color-ink-deep)_62%,transparent),transparent_100%),linear-gradient(to_bottom,color-mix(in_srgb,var(--color-ink-deep)_45%,transparent),transparent_22%),linear-gradient(to_top,color-mix(in_srgb,var(--color-ink-deep)_78%,transparent),transparent_35%)]',
+  'max-md:bg-[radial-gradient(ellipse_90%_45%_at_50%_52%,color-mix(in_srgb,var(--color-ink-deep)_66%,transparent),transparent_100%),linear-gradient(to_bottom,color-mix(in_srgb,var(--color-ink-deep)_45%,transparent),transparent_20%),linear-gradient(to_top,color-mix(in_srgb,var(--color-ink-deep)_85%,transparent),transparent_40%)]',
+)
+
+const legible = '[text-shadow:0_1px_2px_rgba(0,0,0,.35)]'
+const enter = 'mp:opacity-0'
 
 export default function Hero() {
   const jumpTo = useJump()
-  const heroBtn = 'min-w-[236px] [text-shadow:none] max-md:w-full max-md:min-w-0 short-land:min-h-11 short-land:px-[1.3rem] short-land:py-[.7rem]'
+  const heroBtn = 'min-w-[196px] max-md:w-full max-md:min-w-0 short-land:min-h-11 short-land:px-[1.3rem] short-land:py-[.7rem]'
 
   return (
     <section
       id="top"
       className={cx(
-        'relative grid min-h-svh grid-rows-[1fr_auto] items-stretch justify-stretch overflow-hidden text-center text-ink',
-        'bg-sand-deep bg-cover bg-center bg-no-repeat pb-0',
-        'before:pointer-events-none before:absolute before:inset-4 before:z-[2] before:border before:border-[rgba(233,205,123,.5)] max-md:before:inset-2',
+        'relative grid min-h-svh grid-rows-[1fr_auto] overflow-hidden text-center text-cream',
+        'bg-sand-deep bg-cover bg-center bg-no-repeat',
+        // gilt picture-frame hairline, inset from the viewport edge
+        'before:pointer-events-none before:absolute before:inset-4 before:z-[2] before:border before:border-gold-soft/30 max-md:before:inset-2',
         'pt-[calc(env(safe-area-inset-top,0px)_+_76px)] max-tablet:pt-[calc(env(safe-area-inset-top,0px)_+_6.5rem)] max-md:pt-[calc(env(safe-area-inset-top,0px)_+_64px)]',
       )}
       style={{ backgroundImage: `url(${MEDIA.heroPoster})` }}
@@ -37,40 +52,45 @@ export default function Hero() {
         />
       )}
 
-      {/* Scrim keeps text legible on any video frame; stronger at the bottom for the trust bar. */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,color-mix(in_srgb,var(--color-ink-deep)_38%,transparent),transparent_70%),linear-gradient(to_top,color-mix(in_srgb,var(--color-ink-deep)_62%,transparent),transparent_38%)]"
-      />
+      <div aria-hidden="true" className={scrim} />
 
-      <div className={cx(wrap, 'relative z-[1] flex w-full items-center justify-center py-[clamp(2rem,6vh,4rem)] short-land:py-4')}>
-        <div className="mx-auto flex max-w-[820px] flex-col items-center">
-          <h1
-            data-hero-item
-            className="m-0 max-w-[14ch] text-[clamp(3rem,5.6vw,5.2rem)] leading-none font-normal tracking-display text-ink mp:opacity-0 max-md:text-[clamp(2.6rem,12vw,3.8rem)]"
-          >
-            <PalaceCityLogo className="mx-auto block h-auto w-[min(640px,84vw)] text-white [filter:drop-shadow(0_1px_1px_rgba(40,22,6,.6))_drop-shadow(0_2px_14px_rgba(30,16,4,.4))] max-md:w-[88vw] short-wide:w-[min(480px,60vw)] short-land:w-[min(320px,42vw)]" />
+      {/* Grid row 1 (1fr) holds the stack; place-items-center centres it both ways. */}
+      <div className={cx(wrap, 'relative z-[1] grid w-full place-items-center py-[clamp(2rem,6vh,4rem)] short-land:py-4')}>
+        <div className="grid max-w-[720px] justify-items-center">
+          <h1 data-hero-item className={cx('m-0 leading-none font-normal', enter)}>
+            <PalaceCityLogo className="mx-auto block h-auto w-[min(690px,80vw)] [filter:drop-shadow(0_1px_1px_rgba(40,22,6,.55))_drop-shadow(0_6px_24px_rgba(20,10,4,.45))] max-md:w-[min(480px,90vw)] short-wide:w-[min(480px,56vw)] short-land:w-[min(340px,44vw)] " />
           </h1>
+
+          <div data-hero-item className={cx('mt-[clamp(1.25rem,3vh,1.75rem)] short-land:hidden', enter)}>
+            <RoyalOrn center tight />
+          </div>
+
           <p
             data-hero-item
-            className={cx(softGlow, "mt-[clamp(1.25rem,3vh,2rem)] mb-0 font-display text-[clamp(1.65rem,3.4vw,2.75rem)] leading-[1.15] font-semibold tracking-[.005em] text-cream italic [font-size-adjust:.47] mp:opacity-0 short-land:mt-[.8rem] short-land:text-[1.5rem]")}
+            className={cx(
+              legible,
+              enter,
+              'm-0 max-w-[40ch] text-[clamp(1.05rem,1.35vw,1.2rem)] leading-[1.6] font-medium text-balance text-cream',
+              'short-land:mt-3 short-land:text-[.92rem]',
+            )}
           >
+            Neo-classical 4 and 5 BHK villas from <span className="font-bold whitespace-nowrap">₹5 Cr*</span> at Akkarai,
+            East Coast Road, Chennai.
           </p>
-          <p
-            data-hero-item
-            className={cx(softGlow, "mx-auto mt-[.85rem] mb-0 max-w-[44ch] text-[clamp(1rem,1.25vw,1.12rem)] leading-[1.65] font-medium text-white mp:opacity-0 short-land:mt-[.4rem] short-land:text-[.92rem]")}
-          >
-            Neo-classical 4 and 5 BHK villas from ₹5 Cr* at Akkarai, East Coast Road, Chennai.
-          </p>
+
           <div
             data-hero-item
-            className={cx(softGlow, "mt-[clamp(1.75rem,4vh,2.5rem)] flex flex-wrap items-center justify-center gap-4 mp:opacity-0 max-md:w-full max-md:max-w-[340px] max-md:flex-col max-md:items-stretch max-md:gap-3 short-land:mt-4")}
+            className={cx(
+              enter,
+              'mt-[clamp(1.75rem,4vh,2.25rem)] grid grid-cols-2 gap-3',
+              'max-md:w-full max-md:max-w-[360px] max-md:grid-cols-1 short-land:mt-4',
+            )}
           >
-            <a className={btn('maroon', 'lg', heroBtn)} {...jumpTo('lead', '#enquire')}>
+            <a className={btn('maroon', 'md', cx('rounded-lg', heroBtn))} {...jumpTo('lead', '#enquire')}>
               Book a private tour
             </a>
-            <a className={btn('glass', 'lg', heroBtn)} {...jumpTo('walkthrough', '#walkthrough')}>
-              <svg className="ml-[2px] size-[14px]" viewBox="0 0 14 14" aria-hidden="true">
+            <a className={btn('glass', 'md', cx('rounded-lg', heroBtn))} {...jumpTo('walkthrough', '#walkthrough')}>
+              <svg className="size-[13px]" viewBox="0 0 14 14" aria-hidden="true">
                 <path d="M3 1.5v11l9-5.5z" fill="currentColor" />
               </svg>
               Watch the walkthrough
@@ -79,25 +99,26 @@ export default function Hero() {
         </div>
       </div>
 
-      <div
-        data-hero-bar
-        className="relative z-[1] border-t border-[rgba(233,205,123,.75)] pt-4 pb-[calc(1rem_+_env(safe-area-inset-bottom,0px))] mp:opacity-0"
-      >
-        <div className={cx(wrap, 'relative z-[1] flex w-full flex-wrap items-center justify-between gap-x-8 gap-y-3 md:pr-20 max-xl:justify-center max-xl:text-center')}>
-          <ul
-            className={cx(
-              'm-0 flex list-none flex-wrap justify-start gap-x-8 gap-y-2 p-0 text-[.88rem] font-semibold text-white',
-              darkGlow,
-              'max-xl:justify-center max-md:gap-x-[1.1rem] max-md:gap-y-[.35rem] max-md:text-[.8rem]',
-            )}
-          >
-            {TRUST.map((t) => (
-              <li key={t} className="flex items-center gap-[.55rem] before:size-[6px] before:rotate-45 before:bg-gold-soft before:shadow-[0_1px_3px_rgba(0,0,0,.4)]">
-                {t}
-              </li>
-            ))}
-          </ul>
-          <p className={cx('m-0 text-[.8rem] font-semibold text-white', darkGlow, 'max-xl:w-full max-md:text-[.74rem]')}>{RERA}</p>
+      <div data-hero-bar className={cx('relative z-[1] pb-[calc(1.5rem_+_env(safe-area-inset-bottom,0px))]', enter)}>
+        <div className={cx(wrap, 'w-full md:px-24')}>
+          <div className="grid justify-items-center gap-3 border-t border-gold-soft/35 pt-5">
+            <ul
+              className={cx(
+                legible,
+                'm-0 flex list-none flex-wrap justify-center gap-x-8 gap-y-2 p-0 text-[.86rem] font-semibold tracking-[.01em] text-cream',
+                'max-md:grid max-md:w-full max-md:grid-cols-2 max-md:text-left max-md:gap-x-4 max-md:text-[.8rem]',
+              )}
+            >
+              {TRUST.map((t) => (
+                <li key={t} className="flex items-center gap-[.6rem] max-md:items-start max-md:before:mt-[.5em] before:size-[5px] before:flex-none before:rotate-45 before:bg-gold-soft">
+                  {t}
+                </li>
+              ))}
+            </ul>
+            <p className={cx(legible, 'm-0 text-[.76rem] font-medium tracking-[.02em] text-cream/75 tabular-nums max-md:text-[.72rem]')}>
+              {RERA}
+            </p>
+          </div>
         </div>
       </div>
     </section>

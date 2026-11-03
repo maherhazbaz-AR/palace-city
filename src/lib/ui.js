@@ -17,10 +17,10 @@ export const chamber = 'tone-palace chamber'
 export const royalPattern = 'bg-sand bg-(image:--pattern-royal) bg-[length:72px_72px]'
 
 /** Telephone / WhatsApp details shared across the page. */
-export const PHONE_TEL = 'tel:+919500461555'
-export const PHONE_LABEL = '+91 95004 61555'
+export const PHONE_TEL = 'tel:+917305088993'
+export const PHONE_LABEL = '+91 73050 88993'
 export const WA_LINK =
-  'https://wa.me/919500461555?text=Hello%2C%20I%E2%80%99d%20like%20the%20price%20list%20for%20Adityaram%20Palace%20City.'
+  'https://wa.me/917305088993?text=Hello%2C%20I%E2%80%99d%20like%20the%20price%20list%20for%20Adityaram%20Palace%20City.'
 
 /* ------------------------------------------------------------------
    Buttons
